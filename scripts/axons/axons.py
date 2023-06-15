@@ -104,7 +104,6 @@ class AxonsAnalyser(ImageAnalyser):
         axons_diameters, axons_props = self.measure_objects(watershed_axons)
         mean_axon_diameter = np.mean(axons_diameters)
         print(f"Mean axons diameter: {mean_axon_diameter*0.007}")
-        # Mean axons diameter: 0.52 micrometers
 
         # Myelins diameters
         watershed_myelins = self.dilate_axons(
@@ -116,49 +115,10 @@ class AxonsAnalyser(ImageAnalyser):
         myelins_diameters, myelins_props = self.measure_objects(watershed_myelins)
         mean_myelin_diameter = np.mean(myelins_diameters)
         print(f"Mean myelins diameter: {mean_myelin_diameter*0.007}")
-        # Mean myelins diameter: 0.77 micrometers
 
 
 if __name__ == "__main__":
     axons_analyser = AxonsAnalyser("data/axons.tif")
     axons_analyser.run_analysis()
-
-    # axons_analyser.load_image()
-
-    # preprocessed_image = axons_analyser.preprocess_image(
-    #     axons_analyser.image, kernel_size=(21, 21), beta=1, plot=False
-    # )
-
-    # mask = axons_analyser.segment_image(
-    #     preprocessed_image, thresh_type="otsu", plot=True
-    # )
-    # labeled_mask = axons_analyser.clean_label_mask(
-    #     mask, min_object_area=1200, plot=True
-    # )
-    # inverted_mask = (labeled_mask == 0) * 1
-    # labeled_inverted_mask = axons_analyser.clean_label_mask(
-    #     inverted_mask, min_object_area=2000, plot=False
-    # )
-    # cleaned_labeled_mask = (labeled_inverted_mask == 0) * 1
-    # plot_image(cleaned_labeled_mask)
-
-    # cleaned_mask = axons_analyser.remove_non_circular_regions(cleaned_labeled_mask, 0.2)
-
-    # watershed_axons = axons_analyser.watershed_algo(
-    #     cleaned_mask, min_distance=50, min_object_area=1200, plot=True
-    # )
-
-    # # Axons diameters
-    # axons_diameters, axons_props = axons_analyser.measure_objects(watershed_axons)
-    # mean_axon_diameter = np.mean(axons_diameters)
-    # print(f"Mean axons diameter: {mean_axon_diameter*0.007}")
-    # # Mean axons diameter: 74.36
-
-    # # Myelins diameters
-    # watershed_myelins = axons_analyser.dilate_axons(
-    #     watershed_axons, disk_size=16, plot=True
-    # )
-    # myelins_diameters, myelins_props = axons_analyser.measure_objects(watershed_myelins)
-    # mean_myelin_diameter = np.mean(myelins_diameters)
-    # print(f"Mean myelins diameter: {mean_myelin_diameter*0.007}")
-    # # Mean myelins diameter: 109.41
+    # Mean axons diameter: 0.52 micrometers
+    # Mean myelins diameter: 0.77 micrometers

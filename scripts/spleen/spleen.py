@@ -89,25 +89,3 @@ if __name__ == "__main__":
     spleen_analyser = SpleenAnalyser("data/Spleen_Hoechst_AutoFL_SMA.ome.tif")
     spleen_analyser.run_analysis()
     # Number of blue cell nuclei: 124054
-
-    spleen_analyser.load_image()
-    preprocessed_image = spleen_analyser.preprocess_image(
-        spleen_analyser.image, blur=False
-    )
-
-    mask = spleen_analyser.segment_image(
-        preprocessed_image[:, :, 0],
-        thresh_type="global",
-        thresh=0.12,
-        plot=False,
-        cmap="gray",
-        title="Blue cells nuclei mask",
-    )
-
-    watershed_image = spleen_analyser.watershed_algo(
-        mask, min_distance=10, min_object_area=10, plot=True
-    )
-    num_cells = np.max(watershed_image)
-    num_cells
-
-    spleen_analyser.plot_boundaries(watershed_image)
