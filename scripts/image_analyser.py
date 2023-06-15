@@ -8,6 +8,20 @@ from skimage.segmentation import watershed
 from skimage.measure import label, regionprops
 from scipy import ndimage as ndi
 from skimage.feature import peak_local_max
+from PIL import Image
+
+OPENSLIDE_PATH = r"D:\Programmes\openslide-win64-20230414\openslide-win64-20230414\bin"
+
+import os
+
+if hasattr(os, "add_dll_directory"):
+    # Python >= 3.8 on Windows
+    with os.add_dll_directory(OPENSLIDE_PATH):
+        import openslide
+else:
+    import openslide
+
+from openslide import OpenSlide
 
 
 class FiletypeError(ValueError):
@@ -84,14 +98,13 @@ class ImageAnalyser(ABC):
 
         if Path(self.image_path).suffix.lower() == ".tif":
             self.image = tifffile.imread(self.image_path)
+            self._check_image_dim()
         elif Path(self.image_path).suffix.lower() == ".svs":
-            pass
+            self.slide = OpenSlide(self.image_path)
         else:
             raise FiletypeError(
                 "Invalid file type. Only TIFF and SVS files are supported."
             )
-        # Check the number of channels and rearrange dimensions if necessary
-        self._check_image_dim()
 
     def preprocess_image(
         self,

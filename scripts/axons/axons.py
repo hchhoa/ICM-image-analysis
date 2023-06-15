@@ -2,7 +2,6 @@ from scripts.image_analyser import ImageAnalyser
 from scripts.utils import plot_image
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
 from skimage.measure import regionprops
 from skimage.morphology import disk, dilation
 
